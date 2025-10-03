@@ -1,4 +1,4 @@
-package com.project.user.administration.services;
+package com.project.user.administration.ServiceTest;
 
 import com.project.user.administration.model.User;
 import com.project.user.administration.model.UserLogin;
