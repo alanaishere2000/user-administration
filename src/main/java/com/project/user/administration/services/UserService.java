@@ -19,6 +19,8 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -41,6 +43,8 @@ public class UserService {
     public PasswordEncoder encoder() {
         return new BCryptPasswordEncoder();
     }
+
+    private static final Logger logger = LoggerFactory.getLogger(UserService.class);
 
     public UserRequestVo findByUserId(Long userId) {
 
@@ -80,7 +84,7 @@ public class UserService {
 
             return userTokenResponseVo;
         } else {
-            throw new RuntimeException("User not found");
+            throw new UserNotFoundException("Invalid username or password");
         }
     }
 
@@ -151,6 +155,13 @@ public class UserService {
         } catch (JWTVerificationException exception) {
             return false;
         }
+
+        public class UserNotFoundException extends RuntimeException {
+            public UserNotFoundException(String message) {
+                super(message);
+            }
+        }
+
 
     }
 }
